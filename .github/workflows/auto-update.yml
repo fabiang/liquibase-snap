@@ -1,0 +1,53 @@
+name: Docker Image
+
+on:
+  push:
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".editorconfig"
+  schedule:
+    - cron: "0 7 * * 1-4"
+
+jobs:
+  auto-update:
+    name: "Auto-Update Liquibase Snap"
+    runs-on: ubuntu-latest
+    env:
+      LIQUIBASE_LATEST: ""
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Read snapcraft.yaml
+        uses: pietrobolcato/action-read-yaml@1.1.0
+        id: read_snapcraft
+        with:
+          config: ${{ github.workspace }}/snapcraft.yaml
+
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/liquibase/liquibase/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          echo "LIQUIBASE_LATEST=$(echo '${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}' | cut -c 2- )" >> $GITHUB_ENV
+
+      - run: |
+          echo Latest Version: $LIQUIBASE_LATEST
+          echo Our Version: ${{ steps.read_snapcraft.outputs['version'] }}
+
+      - name: Update values.yaml
+        if: ${{ env.LIQUIBASE_LATEST != steps.read_snapcraft.outputs['version'] }}
+        uses: fjogeleit/yaml-update-action@v0.13.1
+        with:
+          valueFile: 'snapcraft.yaml'
+          propertyPath: 'version'
+          value: ${{ env.LIQUIBASE_LATEST }}
+          createPR: true
+          branch: update-${{ env.LIQUIBASE_LATEST }}
+          targetBranch: main
+          message: 'Update Liquibase Version to ${{ env.LIQUIBASE_LATEST }}'
+          masterBranchName: main
