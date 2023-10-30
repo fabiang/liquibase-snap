@@ -1,11 +1,11 @@
-name: liquibase
-version: 4.4.2
+name: liquibase-database-migration
+version: 4.23.2
 summary: Source control for your database
 description: |
-    Liquibase is an open-source database-independent library for tracking, 
-    managing and applying database schema changes. 
-    It was started in 2006 to allow easier tracking of database changes, 
-    especially in an agile software development environment. 
+  Liquibase is an open-source database-independent library for tracking,
+  managing and applying database schema changes.
+  It was started in 2006 to allow easier tracking of database changes,
+  especially in an agile software development environment.
 license: Apache-2.0
 
 base: core20
@@ -16,18 +16,19 @@ parts:
   liquibase:
     plugin: dump
     source: https://github.com/liquibase/liquibase/releases/download/v$SNAPCRAFT_PROJECT_VERSION/liquibase-$SNAPCRAFT_PROJECT_VERSION.tar.gz
-    build-packages: [ca-certificates, ca-certificates-java, openjdk-11-jre-dcevm]
+    build-packages:
+      [ca-certificates, ca-certificates-java, openjdk-11-jre-dcevm]
     stage-packages: [openjdk-11-jre-dcevm]
 
 plugs:
-    dot-m2-repository:
-        interface: personal-files
-        read: [$HOME/.m2/repository]
+  dot-m2-repository:
+    interface: personal-files
+    read: [$HOME/.m2/repository]
 
 apps:
   liquibase:
     command: liquibase
     environment:
-        JAVA_HOME: $SNAP/usr/lib/jvm/java-11-openjdk-amd64
-        PATH: $PATH:/$JAVA_HOME/jre/bin
+      JAVA_HOME: $SNAP/usr/lib/jvm/java-11-openjdk-amd64
+      PATH: $PATH:/$JAVA_HOME/jre/bin
     plugs: [network, home, removable-media, dot-m2-repository]
