@@ -1,11 +1,6 @@
 name: Docker Image
 
 on:
-  push:
-    paths-ignore:
-      - "README.md"
-      - "LICENSE"
-      - ".editorconfig"
   schedule:
     - cron: "0 7 * * 1-4"
 
