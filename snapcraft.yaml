@@ -1,5 +1,5 @@
 name: liquibase-database-migration
-version: 4.23.2
+version: 4.24.0
 summary: Source control for your database
 description: |
   Liquibase is an open-source database-independent library for tracking,
@@ -38,5 +38,3 @@ apps:
       - home
       - removable-media
       - dot-m2-repository
-file:
-  version: 4.24.0
