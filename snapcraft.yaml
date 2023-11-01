@@ -22,11 +22,6 @@ parts:
       - openjdk-11-jre-dcevm
     stage-packages:
       - openjdk-11-jre-dcevm
-plugs:
-  dot-m2-repository:
-    interface: personal-files
-    read:
-      - $HOME/.m2/repository
 apps:
   liquibase:
     command: liquibase
@@ -37,4 +32,3 @@ apps:
       - network
       - home
       - removable-media
-      - dot-m2-repository
