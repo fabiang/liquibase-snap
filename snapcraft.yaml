@@ -22,6 +22,10 @@ parts:
       - openjdk-11-jre-dcevm
     stage-packages:
       - openjdk-11-jre-dcevm
+    # https://forum.snapcraft.io/t/resolve-package-contains-external-symlinks-error-when-trying-to-snap/2963/20
+    override-prime: |
+      snapcraftctl prime
+      rm -f usr/lib/jvm/java-11-openjdk-*/lib/security/blacklisted.certs
 apps:
   liquibase:
     command: liquibase
