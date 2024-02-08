@@ -1,5 +1,5 @@
 name: liquibase-database-migration
-version: 4.25.1
+version: 4.26.0
 summary: Source control for your database
 description: |
   Liquibase is an open-source database-independent library for tracking,
