@@ -1,12 +1,11 @@
-name: Docker Image
-
+name: "Auto-Update"
 on:
   schedule:
     - cron: "0 7 * * 1-4"
 
 jobs:
   auto-update:
-    name: "Auto-Update Liquibase Snap"
+    name: "Liquibase Snap"
     runs-on: ubuntu-latest
     env:
       LIQUIBASE_LATEST: ""
